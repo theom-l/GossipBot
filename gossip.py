@@ -12,7 +12,7 @@ from temboo.core.session import TembooSession
 #https://python.plainenglish.io/create-ai-content-generator-with-python-flask-and-openai-gpt-3-407a19f096b
 #https://slacker.ro/2020/08/28/the-ultimate-guide-to-openais-gpt-3-language-model/
 
-#AP
+#API
 openai.api_key = "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"
 
 

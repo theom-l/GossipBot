@@ -1,4 +1,4 @@
-#!/Users/theomandin-lee/Documents/gossipbot/venv/bin/python3
+#!/Users/theomandin-lee/Github/GossipBot/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
