@@ -38,8 +38,6 @@ except requests.RequestException:
 #parsing JSON 
 gossip = answer['choices'][0]['text']
 
-print(gossip)
-
 #print(answer)
 
 def sendEmail(gossip):
