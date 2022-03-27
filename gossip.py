@@ -42,7 +42,7 @@ gossip = answer['choices'][0]['text']
 
 def sendEmail(gossip):
   # Create a session with your Temboo account details
-  session = TembooSession("theom-l", "GossipBotsendmail", "LDlj0THtgAYNMjHJxhgpCWsI49Vfwuli")
+  session = TembooSession("theoml", "GossipBotsendmail", "LDlj0THtgAYNMjHJxhgpCWsI49Vfwuli")
 
   # Instantiate the Choreo
   sendEmailChoreo = SendEmail(session)
