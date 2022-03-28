@@ -6,6 +6,15 @@ https://people.csail.mit.edu/hubert/pyaudio/
 
 libraries used:
 
+update pip
+python3
+openai
+Azure speech
+pythonaudio?
+portaudio?
+
+https://community.rhasspy.org/t/using-respeaker-button-for-wake/370/3
+
 https://keestalkstech.com/2019/10/simple-python-code-to-send-message-to-slack-channel-without-packages/
 
 https://practicaldatascience.co.uk/data-science/how-to-send-a-slack-message-in-python-using-webhooks
@@ -13,4 +22,9 @@ https://practicaldatascience.co.uk/data-science/how-to-send-a-slack-message-in-p
 #https://jman4190.medium.com/how-to-build-a-gpt-3-chatbot-with-python-7b83e55805e6
 #https://python.plainenglish.io/create-ai-content-generator-with-python-flask-and-openai-gpt-3-407a19f096b
 #https://slacker.ro/2020/08/28/the-ultimate-guide-to-openais-gpt-3-language-model/
+
+TO DO:
+    Get to work with raspberry pi speaker
+    Change params for azure microphone detection (read document) (set to 30 seconds)
+    Install Libs
 
