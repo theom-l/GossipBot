@@ -1,9 +1,9 @@
 import os
 import sys
+import azure.cognitiveservices.speech as speechsdk
 import requests
 import json
 import openai
-import azure.cognitiveservices.speech as speechsdk
 
 from temboo.Library.Google.Gmail import SendEmail
 from temboo.core.session import TembooSession
@@ -13,16 +13,20 @@ from temboo.core.session import TembooSession
 #https://python.plainenglish.io/create-ai-content-generator-with-python-flask-and-openai-gpt-3-407a19f096b
 #https://slacker.ro/2020/08/28/the-ultimate-guide-to-openais-gpt-3-language-model/
 
+#setup
+slack_token = 'xoxb-my-bot-token'
+slack_channel = '#my-channel'
+slack_icon_emoji = ':see_no_evil:'
+slack_user_name = 'Double Images Monitor'
+
 #API
 openai.api_key = "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"
 
-
-#input prompt
+#initialize prompt
 prompt = "Say this is a test."
 
-#request
-
-def recognize_from_microphone():
+#Azure API function
+def recognize_from_microphone(prompt):
     speech_config = speechsdk.SpeechConfig(subscription="23ed5e365f4842b8911a3d03355826ae", region="eastus")
     speech_config.speech_recognition_language="en-US"
 
@@ -35,8 +39,9 @@ def recognize_from_microphone():
     speech_recognition_result = speech_recognizer.recognize_once_async().get()
 
     if speech_recognition_result.reason == speechsdk.ResultReason.RecognizedSpeech:
-        prompt = format(speech_recognition_result.text)
+        prompt = speech_recognition_result.text
         print("Recognized: {}".format(speech_recognition_result.text))
+        return prompt
     elif speech_recognition_result.reason == speechsdk.ResultReason.NoMatch:
         print("No speech could be recognized: {}".format(speech_recognition_result.no_match_details))
     elif speech_recognition_result.reason == speechsdk.ResultReason.Canceled:
@@ -45,12 +50,15 @@ def recognize_from_microphone():
         if cancellation_details.reason == speechsdk.CancellationReason.Error:
             print("Error details: {}".format(cancellation_details.error_details))
 
-recognize_from_microphone()
 
+#Store s2t response
+speech = recognize_from_microphone(prompt)
+
+#Request GPT3
 try:
   response = openai.Completion.create(
   engine="text-davinci-002",
-  prompt=prompt,
+  prompt=speech,
   temperature=1,
   max_tokens=224,
   top_p=1,
@@ -61,10 +69,25 @@ try:
 except requests.RequestException:
   print("ERROR: Not able to contact OpenAI API")
 
-#parsing JSON 
+#parsing JSON from GPT3
 gossip = answer['choices'][0]['text']
 
-#print(answer)
+#print 
+print(gossip)
+
+
+#https://practicaldatascience.co.uk/data-science/how-to-send-a-slack-message-in-python-using-webhooks
+payload = {
+      'text': gossip,
+  }
+
+webhook_url = "https://hooks.slack.com/services/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"
+
+def post_gossip(payload, webhook_url):
+
+   return requests.post(webhook_url, json.dumps(payload))
+
+post_gossip(payload, webhook_url)
 
 # def sendEmail():
 #   # Create a session with your Temboo account details
