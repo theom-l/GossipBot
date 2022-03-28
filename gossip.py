@@ -8,24 +8,15 @@ import openai
 from temboo.Library.Google.Gmail import SendEmail
 from temboo.core.session import TembooSession
 
+#SETUP
 
-#https://jman4190.medium.com/how-to-build-a-gpt-3-chatbot-with-python-7b83e55805e6
-#https://python.plainenglish.io/create-ai-content-generator-with-python-flask-and-openai-gpt-3-407a19f096b
-#https://slacker.ro/2020/08/28/the-ultimate-guide-to-openais-gpt-3-language-model/
-
-#setup
-slack_token = 'xoxb-my-bot-token'
-slack_channel = '#my-channel'
-slack_icon_emoji = ':see_no_evil:'
-slack_user_name = 'Double Images Monitor'
-
-#API
+#GPT 3 API key
 openai.api_key = "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"
-
 #initialize prompt
 prompt = "Say this is a test."
 
-#Azure API function
+
+#Azure API function speech-to-text
 def recognize_from_microphone(prompt):
     speech_config = speechsdk.SpeechConfig(subscription="23ed5e365f4842b8911a3d03355826ae", region="eastus")
     speech_config.speech_recognition_language="en-US"
@@ -54,7 +45,7 @@ def recognize_from_microphone(prompt):
 #Store s2t response
 speech = recognize_from_microphone(prompt)
 
-#Request GPT3
+#Request GPT3 with text from transcription
 try:
   response = openai.Completion.create(
   engine="text-davinci-002",
@@ -72,21 +63,15 @@ except requests.RequestException:
 #parsing JSON from GPT3
 gossip = answer['choices'][0]['text']
 
-#print 
-print(gossip)
-
-
-#https://practicaldatascience.co.uk/data-science/how-to-send-a-slack-message-in-python-using-webhooks
-payload = {
-      'text': gossip,
-  }
-
+#setup variables 
+payload = {'text': gossip,}
 webhook_url = "https://hooks.slack.com/services/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"
 
+#slack post function
 def post_gossip(payload, webhook_url):
-
    return requests.post(webhook_url, json.dumps(payload))
 
+#call slack post function
 post_gossip(payload, webhook_url)
 
 # def sendEmail():
