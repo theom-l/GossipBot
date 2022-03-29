@@ -49,7 +49,7 @@ speech = recognize_from_microphone(prompt)
 try:
   response = openai.Completion.create(
   engine="text-davinci-002",
-  prompt=speech,
+  prompt=speech + "\n\nCreate gossip about this conversation starting with 'Hey Gossip Bot here. And I have the biggest news ever. One of my many sources, sends us this:\n' and ending with 2 funny questions", 
   temperature=1,
   max_tokens=224,
   top_p=1,
